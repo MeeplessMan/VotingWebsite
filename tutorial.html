@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Digital Voting System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f7fc;
+            color: #333;
+        }
+
+        header {
+            background-color: #1abc9c;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #34495e;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #16a085;
+            transform: scale(1.05);
+        }
+
+        main {
+            padding: 40px 15px;
+            max-width: 1200px;
+            margin: 30px auto;
+            background: #ecf0f1;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #1abc9c;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .step {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .step i {
+            font-size: 2rem;
+            color: #1abc9c;
+            margin-right: 15px;
+        }
+
+        .step p {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        footer {
+            background-color: #34495e;
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #1abc9c;
+            text-decoration: none;
+        }
+
+        footer a:hover,
+        footer a:focus {
+            text-decoration: underline;
+        }
+
+        /* Screen Reader Styling */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Digital Voting System Tutorial</h1>
+        <p class="sr-only">Learn how to use the digital voting system step by step</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" aria-label="Home">Home</a></li>
+            <li><a href="#steps" aria-label="Navigate to tutorial steps">Tutorial</a></li>
+            <li><a href="contact.html" aria-label="Contact us">Contact Us</a></li>
+            <li><a href="about.html" aria-label="Learn more about us">About Us</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="steps">
+            <h2><i class="fas fa-book-open"></i> Tutorial: How to Vote</h2>
+
+            <div class="step">
+                <i class="fas fa-user"></i>
+                <p><strong>Step 1: Login or Sign-up</strong><br>To start using the voting system, you need to log in or sign up. If you're new, click on "Sign Up" and create an account. If you're an existing user, just enter your credentials and log in.</p>
+            </div>
+
+            <div class="step">
+                <i class="fas fa-check-square"></i>
+                <p><strong>Step 2: Choose Your Candidate</strong><br>Once you're logged in, go to the "Vote Now" section and select your preferred candidate. You can see the options available and their details to make an informed decision.</p>
+            </div>
+
+            <div class="step">
+                <i class="fas fa-vote-yea"></i>
+                <p><strong>Step 3: Cast Your Vote</strong><br>After selecting your candidate, click the "Vote" button to cast your vote. You'll receive a confirmation message once your vote is successfully recorded.</p>
+            </div>
+
+            <div class="step">
+                <i class="fas fa-chart-bar"></i>
+                <p><strong>Step 4: View Results</strong><br>Once you've voted, you can view the results in real-time by going to the "View Results" section. The voting process is transparent and secure.</p>
+            </div>
+
+            <div class="step">
+                <i class="fas fa-question-circle"></i>
+                <p><strong>Step 5: Get Help</strong><br>If you encounter any issues or need assistance, visit the "Help" section for a detailed FAQ or contact support through the provided channels.</p>
+            </div>
+
+            <p>If you still have questions or need further assistance, feel free to reach out to our <a href="contact.html" aria-label="Contact Us">Contact Us</a> page.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Digital Voting System. All rights reserved. | <a href="privacy.html" aria-label="Privacy Policy">Privacy Policy</a> | <a href="terms.html" aria-label="Terms of Service">Terms of Service</a></p>
+    </footer>
+
+</body>
+</html>

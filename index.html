@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Digital Voting System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('The_Durban_University_of_Technology_new_log.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #2c3e50;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Faded Background Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6); /* Light fade effect */
+            z-index: -1;
+        }
+
+        header {
+            background-color: #1abc9c;
+            color: white;
+            padding: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            position: relative; /* Ensures it's above the faded background */
+            z-index: 1;
+        }
+
+        .option {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .option i {
+            font-size: 3rem; /* Bigger icons */
+            color: #1abc9c;
+            margin-bottom: 15px;
+        }
+
+        .option span {
+            font-size: 1.5rem; /* Bigger text */
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #34495e;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <i class="fas fa-vote-yea"></i> Accessible Digital Voting System
+    </header>
+
+    <div class="container">
+        <a href="register.html" class="option">
+            <i class="fas fa-user-plus"></i>
+            <span>Sign Up</span>
+        </a>
+
+        <a href="login.html" class="option">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Log In</span>
+        </a>
+
+        <a href="tutorial.html" class="option">
+            <i class="fas fa-book"></i>
+            <span>Tutorial</span>
+        </a>
+
+        <a href="contact.html" class="option">
+            <i class="fas fa-envelope"></i>
+            <span>Contact Us</span>
+        </a>
+
+        <a href="about.html" class="option">
+            <i class="fas fa-info-circle"></i>
+            <span>About Us</span>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2025 Accessible Digital Voting System. All rights reserved.
+    </footer>
+</body>
+</html>

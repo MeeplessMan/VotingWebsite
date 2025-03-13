@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varsity Student Voting System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+            color: #fff;
+        }
+        .container {
+            width: 70%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 0px 10px gray;
+            margin-top: 50px;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        h1 {
+            color: #006400;
+            font-size: 32px;
+        }
+        .party {
+            background: #008000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .party:hover {
+            transform: scale(1.05);
+        }
+        .members {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .member {
+            background: #f4f4f4;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 45%;
+            color: #000;
+            box-shadow: 0px 0px 5px gray;
+            transition: transform 0.3s;
+        }
+        .member:hover {
+            transform: translateY(-5px);
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #006400;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #004d00;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Varsity Student Voting System</h1>
+        <p>Select your preferred political party and vote for its leader.</p>
+        
+        <div class="party">
+            <h2>ANC (African National Congress) 🟡⚫🟢</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - ANC</span>
+                    <button onclick="vote('Candidate 1 - ANC')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - ANC</span>
+                    <button onclick="vote('Candidate 2 - ANC')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>EFF (Economic Freedom Fighters) 🔴⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - EFF</span>
+                    <button onclick="vote('Candidate 1 - EFF')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - EFF</span>
+                    <button onclick="vote('Candidate 2 - EFF')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>IFP (Inkatha Freedom Party) 🟡⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - IFP</span>
+                    <button onclick="vote('Candidate 1 - IFP')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - IFP</span>
+                    <button onclick="vote('Candidate 2 - IFP')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>MK (Umkhonto We Sizwe Party) 🟢⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - MK</span>
+                    <button onclick="vote('Candidate 1 - MK')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - MK</span>
+                    <button onclick="vote('Candidate 2 - MK')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function vote(candidate) {
+            alert('You have voted for ' + candidate);
+        }
+    </script>
+</body>
+</html>

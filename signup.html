@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varsity Student Voting System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #ecf0f1;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        header {
+            background-color: #1abc9c;
+            color: white;
+            padding: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .party {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .party:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .party i {
+            font-size: 3rem;
+            color: #1abc9c;
+            margin-bottom: 15px;
+        }
+
+        .members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .member {
+            background: #ecf0f1;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 45%;
+            color: #000;
+            box-shadow: 0px 0px 5px gray;
+            transition: transform 0.3s;
+        }
+
+        .member:hover {
+            transform: translateY(-5px);
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #1abc9c;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        footer {
+            background-color: #34495e;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <i class="fas fa-vote-yea"></i> Student Voting System
+    </header>
+
+    <div class="container">
+        <div class="party">
+            <h2>ANC (African National Congress) 🟡⚫🟢</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - ANC</span>
+                    <button onclick="vote('Candidate 1 - ANC')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - ANC</span>
+                    <button onclick="vote('Candidate 2 - ANC')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>EFF (Economic Freedom Fighters) 🔴⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - EFF</span>
+                    <button onclick="vote('Candidate 1 - EFF')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - EFF</span>
+                    <button onclick="vote('Candidate 2 - EFF')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>IFP (Inkatha Freedom Party) 🟡⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - IFP</span>
+                    <button onclick="vote('Candidate 1 - IFP')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - IFP</span>
+                    <button onclick="vote('Candidate 2 - IFP')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="party">
+            <h2>MK (Umkhonto We Sizwe Party) 🟢⚫</h2>
+            <div class="members">
+                <div class="member">
+                    <span>Candidate 1 - MK</span>
+                    <button onclick="vote('Candidate 1 - MK')">Vote ✅</button>
+                </div>
+                <div class="member">
+                    <span>Candidate 2 - MK</span>
+                    <button onclick="vote('Candidate 2 - MK')">Vote ✅</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Varsity Student Voting System. All rights reserved.
+    </footer>
+
+    <script>
+        function vote(candidate) {
+            alert('You have voted for ' + candidate);
+        }
+    </script>
+</body>
+</html>
