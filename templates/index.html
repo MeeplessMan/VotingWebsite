@@ -95,27 +95,22 @@
     </header>
 
     <div class="container">
-        <a href="register.html" class="option">
-            <i class="fas fa-user-plus"></i>
-            <span>Sign Up</span>
-        </a>
-
         <a href="login.html" class="option">
             <i class="fas fa-sign-in-alt"></i>
             <span>Log In</span>
         </a>
 
-        <a href="tutorial.html" class="option">
+        <a href="{{url_for('tutorial')}}" class="option">
             <i class="fas fa-book"></i>
             <span>Tutorial</span>
         </a>
 
-        <a href="contact.html" class="option">
+        <a href="{{url_for('contact')}}" class="option">
             <i class="fas fa-envelope"></i>
             <span>Contact Us</span>
         </a>
 
-        <a href="about.html" class="option">
+        <a href="{{url_for('about')}}" class="option">
             <i class="fas fa-info-circle"></i>
             <span>About Us</span>
         </a>
