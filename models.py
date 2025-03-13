@@ -2,14 +2,14 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, RoleMixin
 from app import login
+from datetime import datetime
 
 db = SQLAlchemy
-roles_users = db.table(oles_users = db.Table('roles_users',
+roles_users = db.table(roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))))
-class User(UserMixin,db.Model):
-  
 
+class User(UserMixin,db.Model):
     user_id = db.Column(db.String(10), primary_key = True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(80), nulllable=False)
@@ -22,7 +22,7 @@ class User(UserMixin,db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-    def get_id(self):#
+    def get_id(self):
         return str(self.user_id)
     
     def has_role(self, role_name):
@@ -42,3 +42,24 @@ class Role(db.Model, RoleMixin):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class Election(db.Model):
+    election_id = db.Column(db.Integer, primary_key=True)
+    election_name = db.Column(db.String(80), nullable = False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    election_status =db.Column(db.Boolean, default=False)
+    users = db.relationship('User',  backref=db.backref('elections', lazy= True))
+
+class Candidate(db.Model):
+    candidate_id = db.Column(db.Integer, primary_key=True)
+    voting_options = db.Column(db.Boolean, default=False)
+    elections = db.relationship('Elections', backref=db.backref('candidate', lazy=True))
+
+class Vote(db.Model):
+    vote_id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False,default=datetime)
+    #encrypted_vote_data = 
+    users = db.relationship('users', backref=db.backref('vote', lazy=True))
+    elections = db.relationship('elections', backref=db.backref('vote', lazy=True))
+    candidates = db.relationship('candidates',  backref=db.backref('vote', lazy= True))
