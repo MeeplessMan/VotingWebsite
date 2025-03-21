@@ -61,7 +61,7 @@ def register():
 
 @app.route('/dashboard')
 def dashboard():
-    if 'username' in session:
+    if 'email' in session:
          user = User.query.filter_by(email=session['email']).first()
          return render_template('dashboard.html',user=user)
        
