@@ -101,7 +101,6 @@ def voterLogin():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        print(user)
         if user and user.check_password(form.password.data):
             token = generate_verification_token(user.email)
             verify_url = url_for('voterVerify', token=token, _external=True)
