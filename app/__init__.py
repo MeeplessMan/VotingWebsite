@@ -15,4 +15,14 @@ login.login_view = 'voterLogin'
 mail = Mail(app)
 serializer = URLSafeTimedSerializer(app.secret_key)
 
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    mail.init_app(app)
+    serializer.init_app(app)
+    return app
+
 from app import routes, models

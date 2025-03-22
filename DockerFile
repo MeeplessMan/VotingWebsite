@@ -2,7 +2,7 @@ FROM python: 3.13.2
 
 RUN adduser -D votingWebsite
 
-WORKDIR /home/votingWebsite
+WORKDIR VotingWebsite
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
 RUN flaskenv/bin/pip install -r requirements.txt
