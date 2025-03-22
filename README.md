@@ -15,7 +15,7 @@ The current database in place is a SQLite RDBMS which is the default database te
 
 ERD MODEL:
 
-- ![ERD Model](images/erd.png)
+- ![ERD Model](/Images/erd.png)
 
 - User:
     - id
