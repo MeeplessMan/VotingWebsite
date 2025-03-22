@@ -1,9 +1,132 @@
 {% extends "voter/base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block styles %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    header {
+        background: #3498db;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    header i {
+        margin-right: 10px;
+        font-size: 2rem;
+    }
+    main {
+        padding: 40px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    section h2 {
+        font-size: 2rem;
+        color: #3498db;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+    section h2 i {
+        margin-right: 15px;
+        font-size: 1.5rem;
+        color: #2ecc71;
+    }
+    section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .team-member {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 250px;
+    }
+    .team-member img {
+        width: 100%;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+    .team-member h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #3498db;
+    }
+    .team-member p {
+        color: #555;
+    }
+    footer {
+        background: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 0.9rem;
+    }
+    footer p {
+        margin: 0;
+    }
+    @media (max-width: 768px) {
+        section h2 {
+            font-size: 1.6rem;
+        }
+        .team-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-    <h1>Welecome to DUT SRC Elections Instruction Page</h1>
-    <button><a href="{{ url_for('voterLogin') }}">Vote</a></button>
+<main>
+    <section>
+        <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+        <p>Our mission is to provide a secure, transparent, and reliable digital voting system for all, ensuring that every voice is heard and every vote counts.</p>
+    </section>
+    <section>
+        <h2><i class="fas fa-users"></i> Our Team</h2>
+        <p>We are a group of passionate and dedicated professionals who aim to revolutionize the voting process. We combine technology with trust to bring you a voting system you can rely on.</p>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member 1">
+                <h3>John Doe</h3>
+                <p>CEO &amp; Founder</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member 2">
+                <h3>Jane Smith</h3>
+                <p>Lead Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member 3">
+                <h3>Sam Brown</h3>
+                <p>Security Specialist</p>
+            </div>
+        </div>
+    </section>
+</main>
 {% endblock %}
