@@ -4,7 +4,7 @@ RUN adduser -D votingWebsite
 
 WORKDIR VotingWebsite
 COPY requirements.txt requirements.txt
-RUN python -m venv venv
+RUN python -m venv flaskenv
 RUN flaskenv/bin/pip install -r requirements.txt
 RUN flaskenv/bin/pip install gunicorn
 COPY app app
