@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Login - Voting Website</title>
-    </head>
-    <body>
-        <h1>Instructions: </h1>
-        <a href="{{url_for('voting_vote')}}">Start Vote</a>
-    </body>
-</html>
+{% extends "voter/base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Welecome to DUT SRC Elections Instruction Page</h1>
+    <button><a href="{{ url_for('voterLogin') }}">Vote</a></button>
+{% endblock %}
