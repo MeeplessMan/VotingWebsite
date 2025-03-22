@@ -1,0 +1,18 @@
+FROM python: 3.13.2
+
+RUN adduser -D votingWebsite
+
+WORKDIR /home/votingWebsite
+COPY requirements.txt requirements.txt
+RUN python -m venv venv
+RUN venv/bin/pip install -r requirements.txt
+RUN venv/bin/pip install gunicorn
+COPY app app
+COPY migrations migrations
+COPY votingWebsite.py config.py boot.sh ./
+RUN chmod +x boot.sh
+ENV FLASK_APP votingWebsite.py
+RUN chown -R votingWebsite:votingWebsite ./
+USER votingWebsite
+EXPOSE 5000
+ENTRYPOINT ["./boot.sh"]
