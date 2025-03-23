@@ -1,0 +1,44 @@
+{%extends 'admin/base.html'%}
+{%block title %}{{title}}{%endblock%}
+{%block styles %}{%endblock%}
+{%block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Add User</h1>
+    <form method="POST" action="{{ url_for('adminUserAdd') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+            {{ form.fullname.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.fullname(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+        </div>
+        <div class="mb-4">
+            {{ form.email.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.email(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+        </div>
+        <div class="mb-4">
+            {{ form.campus.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            <div class="flex items-center">
+                {{ form.campus(class="mr-2") }}
+            </div>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Add User
+            </button>
+        </div>
+    </form>
+    <h2 class="text-2xl font-bold mb-4">Upload Users from Text File</h2>
+    <p class="mb-4">Please upload a text file with the format: email#fullname#campus</p>
+    <form method="POST" action="{{ url_for('adminUserAdd') }}" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {{ form2.hidden_tag() }}
+        <div class="mb-4">
+            {{ form2.file.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form2.file(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Upload File
+            </button>
+        </div>
+    </form>
+</div>
+{%endblock%}

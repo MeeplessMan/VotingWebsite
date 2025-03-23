@@ -12,3 +12,5 @@ class Config:
     MAIL_USE_SSL = False
     MAIL_USE_TLS = True
     MAIL_DEFAULT_SENDER = 'no-reply@dutsrcelections.site'
+    UPLOAD_FOLDER = os.path.join(basedir, 'app/static/images')
+    ALLOWED_EXTENSIONS = {'png', 'txt'}

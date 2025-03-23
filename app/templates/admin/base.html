@@ -76,11 +76,25 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#" class="flex items-center gap-3 hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-800 sidebar-icon">
+                <li class="relative">
+                    <button onclick="toggleDropdown('users-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
                         <i class="fas fa-users text-xl"></i>
                         <span class="sidebar-text">Users</span>
-                    </a>
+                    </button>
+                    <ul id="users-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="{{ url_for('adminUsers') }}" class="flex items-center gap-3">
+                                <i class="fas fa-table"></i>
+                                <span class="sidebar-text">Users Table</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="{{url_for('adminUserAdd')}}" class="flex items-center gap-3">
+                                <i class="fas fa-user-plus"></i>
+                                <span class="sidebar-text">Add Users</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="relative">
                     <button onclick="toggleDropdown('candidate-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
@@ -121,7 +135,7 @@
                             </a>
                         </li>
                         <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
-                            <a href="#" class="flex items-center gap-3">
+                            <a href="{{url_for('adminElections')}}" class="flex items-center gap-3">
                                 <i class="fas fa-eye"></i>
                                 <span class="sidebar-text">View All Elections</span>
                             </a>
@@ -160,8 +174,28 @@
                         </li>
                     </ul>
                 </li>
+                <li class="relative">
+                    <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="sidebar-text">Profile</span>
+                    </button>
+                    <ul id="profile-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="{{url_for('adminProfile')}}" class="flex items-center gap-3">
+                                <i class="fas fa-id-badge"></i>
+                                <span class="sidebar-text">Profile</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3">
+                                <i class="fas fa-key"></i>
+                                <span class="sidebar-text">Reset Password</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
-                    <a href="{{url_for('adminLogout')}}" class="flex items-center gap-3 hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-800 sidebar-icon" >
+                    <a href="{{ url_for('adminLogout') }}" class="flex items-center gap-3 hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-800 sidebar-icon">
                         <i class="fas fa-sign-out text-xl"></i>
                         <span class="sidebar-text">Logout</span>
                     </a>
@@ -179,12 +213,6 @@
                 </button>
             </div>
         {%endfor%}
-        {%if current_user.is_authenticated%}
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-900">{{title}}</h1>
-            <p class="mt-2 text-sm text-gray-600"></p>
-        </div>
-        {%endif%}
         {% block content %}{% endblock %}
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

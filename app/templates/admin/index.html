@@ -17,10 +17,12 @@
         <h2 class="text-xl font-semibold text-gray-700">Analytics</h2>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-green-300 cursor-pointer">
+        <a href="{{url_for('adminUsers')}}">
         <div class="text-green-600 mb-4 flex justify-center">
             <i class="fas fa-users text-6xl"></i>
         </div>
         <h2 class="text-xl font-semibold text-gray-700">Users</h2>
+        </a>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-red-300 cursor-pointer">
         <div class="text-red-600 mb-4 flex justify-center">
@@ -35,10 +37,12 @@
         <h2 class="text-xl font-semibold text-gray-700">Ballot</h2>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-indigo-300 cursor-pointer">
+        <a href="{{url_for('adminProfile')}}">
         <div class="text-indigo-600 mb-4 flex justify-center">
             <i class="fas fa-user-cog text-6xl"></i>
         </div>
         <h2 class="text-xl font-semibold text-gray-700">Admin Profile</h2>
+        </a>
     </div>
 </div>
 {% endblock %}
