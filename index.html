@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const mainContent = document.getElementById("main-content");
+            sidebar.classList.toggle("collapsed");
+            if (sidebar.classList.contains("collapsed")) {
+                sidebar.style.width = "70px";
+                mainContent.style.marginLeft = "70px";
+                document.querySelectorAll(".sidebar-text").forEach(el => el.classList.add("hidden"));
+                document.querySelectorAll(".sidebar-icon").forEach(el => el.classList.add("justify-center"));
+            } else {
+                sidebar.style.width = "256px";
+                mainContent.style.marginLeft = "256px";
+                document.querySelectorAll(".sidebar-text").forEach(el => el.classList.remove("hidden"));
+                document.querySelectorAll(".sidebar-icon").forEach(el => el.classList.remove("justify-center"));
+            }
+        }
+
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle("hidden");
+        }
+
+        function showSection(section) {
+            const sections = document.querySelectorAll(".dashboard-section");
+            sections.forEach(sec => sec.classList.add("hidden"));
+            document.getElementById(section).classList.remove("hidden");
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex items-center justify-center">
+    <div id="sidebar" class="w-64 bg-blue-900 text-white h-screen fixed left-0 top-0 overflow-hidden z-50">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold sidebar-text">Admin Panel</h2>
+                <button onclick="toggleSidebar()" class="text-white text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="space-y-4">
+                <li>
+                    <a href="#" class="flex items-center gap-3 hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-800 sidebar-icon" onclick="showSection('dashboard')">
+                        <i class="fas fa-home text-xl"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="relative">
+                    <button onclick="toggleDropdown('admin-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
+                        <i class="fas fa-user-cog text-xl"></i>
+                        <span class="sidebar-text">Admin</span>
+                    </button>
+                    <ul id="admin-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('manage-candidates')">
+                                <i class="fas fa-user-tie"></i>
+                                <span class="sidebar-text">Manage Candidates</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('analytics')">
+                                <i class="fas fa-chart-line"></i>
+                                <span class="sidebar-text">Analytics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center gap-3 hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-800 sidebar-icon" onclick="showSection('users')">
+                        <i class="fas fa-users text-xl"></i>
+                        <span class="sidebar-text">Users</span>
+                    </a>
+                </li>
+                <li class="relative">
+                    <button onclick="toggleDropdown('candidate-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
+                        <i class="fas fa-user-friends text-xl"></i>
+                        <span class="sidebar-text">Candidate</span>
+                    </button>
+                    <ul id="candidate-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('candidate-table')">
+                                <i class="fas fa-table"></i>
+                                <span class="sidebar-text">Candidate Table</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('add-candidate')">
+                                <i class="fas fa-plus"></i>
+                                <span class="sidebar-text">Add New Candidate</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('delete-candidate')">
+                                <i class="fas fa-trash"></i>
+                                <span class="sidebar-text">Delete Candidate</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="relative">
+                    <button onclick="toggleDropdown('election-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
+                        <i class="fas fa-vote-yea text-xl"></i>
+                        <span class="sidebar-text">Election</span>
+                    </button>
+                    <ul id="election-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('current-elections')">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span class="sidebar-text">Current Elections</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('view-elections')">
+                                <i class="fas fa-eye"></i>
+                                <span class="sidebar-text">View All Elections</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('create-election')">
+                                <i class="fas fa-plus"></i>
+                                <span class="sidebar-text">Create New Election</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="relative">
+                    <button onclick="toggleDropdown('ballot-dropdown')" class="flex items-center gap-3 w-full text-left hover:text-gray-300 p-2 rounded hover:bg-blue-800 sidebar-icon">
+                        <i class="fas fa-box text-xl"></i>
+                        <span class="sidebar-text">Ballot</span>
+                    </button>
+                    <ul id="ballot-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('current-ballot')">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span class="sidebar-text">Current Ballot</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('view-ballots')">
+                                <i class="fas fa-eye"></i>
+                                <span class="sidebar-text">View All Ballots</span>
+                            </a>
+                        </li>
+                        <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
+                            <a href="#" class="flex items-center gap-3" onclick="showSection('create-ballot')">
+                                <i class="fas fa-plus"></i>
+                                <span class="sidebar-text">Create New Ballot</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main-content" class="ml-64 p-6 flex-grow text-center">
+        <header class="bg-white p-6 rounded-xl shadow-md w-full max-w-4xl mx-auto animate-bounce">
+            <h1 class="text-2xl font-bold text-gray-800 flex items-center justify-center gap-2">
+                <i class="fas fa-tachometer-alt text-blue-600"></i>
+                Admin Dashboard
+            </h1>
+        </header>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="dashboard-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-8 mx-auto w-full max-w-4xl">
+            <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-blue-300 cursor-pointer" onclick="showSection('manage-candidates')">
+                <div class="text-blue-600 mb-4 flex justify-center">
+                    <i class="fas fa-user-tie text-6xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700">Manage Candidates</h2>
+            </div>
+            <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-purple-300 cursor-pointer" onclick="showSection('analytics')">
+                <div class="text-purple-600 mb-4 flex justify-center">
+                    <i class="fas fa-chart-line text-6xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700">Analytics</h2>
+            </div>
+        </div>
+
+        <!-- Manage Candidates Section -->
+        <div id="manage-candidates" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Manage Candidates</h2>
+            <div class="border border-blue-300 p-6 rounded-xl mt-6">
+                <!-- Add content for managing candidates here -->
+                <p>Manage your candidates here.</p>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analytics" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Analytics</h2>
+            <div class="border border-purple-300 p-6 rounded-xl mt-6">
+                <!-- Add content for analytics here -->
+                <p>View analytics and data here.</p>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="users" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Users</h2>
+            <div class="border border-green-300 p-6 rounded-xl mt-6">
+                <!-- Add content for managing users here -->
+                <p>Manage users here.</p>
+            </div>
+        </div>
+
+        <!-- Candidate Table Section -->
+        <div id="candidate-table" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Candidate Table</h2>
+            <div class="border border-blue-300 p-6 rounded-xl mt-6">
+                <!-- Add content for candidate table here -->
+                <p>View candidate table here.</p>
+            </div>
+        </div>
+
+        <!-- Add Candidate Section -->
+        <div id="add-candidate" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Add New Candidate</h2>
+            <div class="border border-blue-300 p-6 rounded-xl mt-6">
+                <!-- Add content for adding a new candidate here -->
+                <p>Add a new candidate here.</p>
+            </div>
+        </div>
+
+        <!-- Delete Candidate Section -->
+        <div id="delete-candidate" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Delete Candidate</h2>
+            <div class="border border-blue-300 p-6 rounded-xl mt-6">
+                <!-- Add content for deleting a candidate here -->
+                <p>Delete a candidate here.</p>
+            </div>
+        </div>
+
+        <!-- Current Elections Section -->
+        <div id="current-elections" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Current Elections</h2>
+            <div class="border border-purple-300 p-6 rounded-xl mt-6">
+                <!-- Add content for current elections here -->
+                <p>View current elections here.</p>
+            </div>
+        </div>
+
+        <!-- View All Elections Section -->
+        <div id="view-elections" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">View All Elections</h2>
+            <div class="border border-purple-300 p-6 rounded-xl mt-6">
+                <!-- Add content for viewing all elections here -->
+                <p>View all elections here.</p>
+            </div>
+        </div>
+
+        <!-- Create New Election Section -->
+        <div id="create-election" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Create New Election</h2>
+            <div class="border border-purple-300 p-6 rounded-xl mt-6">
+                <!-- Add content for creating a new election here -->
+                <p>Create a new election here.</p>
+            </div>
+        </div>
+
+        <!-- Current Ballot Section -->
+        <div id="current-ballot" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Current Ballot</h2>
+            <div class="border border-green-300 p-6 rounded-xl mt-6">
+                <!-- Add content for current ballot here -->
+                <p>View current ballot here.</p>
+            </div>
+        </div>
+
+        <!-- View All Ballots Section -->
+        <div id="view-ballots" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">View All Ballots</h2>
+            <div class="border border-green-300 p-6 rounded-xl mt-6">
+                <!-- Add content for viewing all ballots here -->
+                <p>View all ballots here.</p>
+            </div>
+        </div>
+
+        <!-- Create New Ballot Section -->
+        <div id="create-ballot" class="dashboard-section hidden">
+            <h2 class="text-3xl font-semibold text-gray-700">Create New Ballot</h2>
+            <div class="border border-green-300 p-6 rounded-xl mt-6">
+                <!-- Add content for creating a new ballot here -->
+                <p>Create a new ballot here.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
