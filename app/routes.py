@@ -1,7 +1,7 @@
 from flask import Flask, request, Blueprint, redirect, url_for, flash, render_template
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
-from app.models import User
+from app.models import User, Ballot, Vote, Candidate, Election
 from app.forms import LoginForm
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message

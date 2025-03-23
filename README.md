@@ -20,7 +20,7 @@ ERD MODEL:
 - User:
     - id
     - email
-    -
+    - 
 
 ## Dependacies
 All the dependacies are listed in requirements.txt. To install all dependancies into your flaskenv folder you woruld run the command `pip install -r requirements.txt`:
