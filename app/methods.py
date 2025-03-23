@@ -3,7 +3,18 @@ from datetime import datetime
 from models import User, Vote, Ballot, Candidate, Election
 
 def get_current_election():
-    return Election.query.filter(Election.election_status == 'active').first()
+    current_election = Election.query.filter(Election.election_status == 'active').first()
+    if current_election:
+        return current_election
+    else:
+        return None
+
+def get_election_status():
+    current_election = get_current_election()
+    if current_election:
+        return current_election.election_status
+    else:
+        return None
 
 def check_election_status():
     current_election = get_current_election()

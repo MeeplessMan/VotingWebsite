@@ -39,7 +39,7 @@ def role_required(role="admin"):
 @app.route('/')
 @login_required
 def index():
-    return redirect(url_for('adminLogin'))
+    return redirect(url_for('voterLogin'))
 
 @app.route('/admin/login', methods=['POST', 'GET'])
 def adminLogin():
@@ -84,7 +84,7 @@ def adminLogout():
 @role_required(role="admin")
 @login_required
 def adminIndex():
-    return render_template('admin/index.html', title='Admin Home')
+    return render_template('admin/index.html', title='Admin Dashboard')
 
 # Voter routes
 

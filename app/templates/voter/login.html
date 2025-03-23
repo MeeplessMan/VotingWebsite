@@ -1,21 +1,32 @@
 {% extends "voter/base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block styles %}
+
 {% endblock %}
 
 {% block content %}
 <h1>Voter Login</h1>
-        <form action="{{url_for('voterLogin')}}" method="post" novalidate>
+<div class="container">
+    <div class="login-box">
+        <h2>Sign In</h2>
+        <form action="{{ url_for('voterLogin') }}" method="post">
             {{ form.hidden_tag() }}
-            <p>
+            <div class="input-group">
                 {{ form.email.label }}<br>
                 {{ form.email(size=32) }}
-            </p>
-            <p>
+            </div>
+
+            <div class="input-group">
                 {{ form.password.label }}<br>
                 {{ form.password(size=32) }}
-            </p>
+            </div>
+
+            <div class="options">
+                <a href="#">Forgot Password?</a>
+            </div>
             <p>{{ form.submit() }}</p>
         </form>
+    </div>
+</div>
 {% endblock %}
 
