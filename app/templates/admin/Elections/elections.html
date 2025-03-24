@@ -25,7 +25,7 @@
                     <td class="px-4 py-2 border-b">{{ election.end_time }}</td>
                     <td class="px-4 py-2 border-b">{{ election.election_status }}</td>
                     <td class="px-4 py-2 border-b">
-                        <a href="#" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Update</a>
+                        <a href="{{url_for('adminElectionUpdate', id=election.id)}}" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Update</a>
                         <button class="ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
                     </td>
                 </tr>

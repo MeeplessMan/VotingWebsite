@@ -255,7 +255,33 @@ def adminElectionAdd():
         return redirect(url_for('adminElectionAdd'))
     return render_template('admin/Elections/createElection.html', title='Add Election', form=form)
 
-@app.route('admin/election/update/<int=id>', methods=['GET', 'POST'])
+@app.route('/admin/election/delete/<int:id>')
+@login_required
+@role_required(role="admin")
+def adminElectionDelete(id):
+    election = Election.query.get(id)
+    if election is None:
+        flash('Election not found.')
+        return redirect(url_for('adminElections'))
+    db.session.delete(election)
+    db.session.commit()
+    flash('Election deleted successfully.')
+    return redirect(url_for('adminElections'))
+
+@app.route('/admin/current_election')
+@login_required
+@role_required(role="admin")
+def adminCurrentElection():
+    election = Methods.get_current_election()
+    if election is None:
+        flash('No current election. Showing upcoming election.')
+        election = Methods.get_upcoming_election()
+        if election is None:
+            flash('No upcoming election. Showing Elections.')
+            return redirect(url_for('adminElections'))
+    return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
+
+@app.route('/admin/election/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 @role_required(role="admin")
 def adminElectionUpdate(id):
