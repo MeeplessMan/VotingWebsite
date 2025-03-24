@@ -370,15 +370,15 @@ def adminCurrentElection():
         return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
     return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
 
-@app.route('admin/current_election/set/<int:id>/<str:status', methods=['GET'])
+@app.route('/admin/current_election/set/<int:id>/<string:status>', methods=['GET'])
 @role_required(role="admin")
 @login_required
-def adminSetCurrentElection(id, status):
+def adminSetCurrentElectionStatus(id, status):
     election = Election.query.get(id)
     if election is None:
         flash('Election not found.')
         return redirect(url_for('adminElections'))
-    if(election.election_status == 'status'):
+    if(election.election_status == status):
         flash('Election already set as current.')
         return redirect(url_for('adminCurrentElection'))
     test = Methods.set_election_status(election.id, status)
@@ -387,6 +387,24 @@ def adminSetCurrentElection(id, status):
         return redirect(url_for('adminCurrentElection'))
     flash('An error occurred.')
     return redirect(url_for('adminCurrentElection'))
+
+@app.route('/admin/election/set/<int:id>/<string:status>', methods=['GET'])
+@role_required(role="admin")
+@login_required
+def adminSetElectionStatus(id, status):
+    election = Election.query.get(id)
+    if election is None:
+        flash('Election not found.')
+        return redirect(url_for('adminElections'))
+    if(election.election_status == status):
+        flash('Election already set as current.')
+        return redirect(url_for('adminElection', id=election.id))
+    test = Methods.set_election_status(election.id, status)
+    if test:
+        flash('Current election set successfully.')
+        return redirect(url_for('adminElection', id=election.id))
+    flash('An error occurred.')
+    return redirect(url_for('adminElection', id=election.id))
 
 @app.route('/admin/ballots')
 @role_required(role="admin")
