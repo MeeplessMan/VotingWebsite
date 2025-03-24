@@ -1,6 +1,7 @@
 from app import db
 import datetime
 from app.models import User, Vote, Ballot, Candidate, Election
+import os
 
 class Methods:
     def __init__(self):
@@ -18,29 +19,36 @@ class Methods:
         if election == None:
             return False
         if(status == 'active'):
+            active = Election.query.filter(Election.election_status == 'active').first()
+            if active:
+                return False
             if election.election_status == 'inactive':
                 etemp = election.start_time.strftime('%Y-%m-%d %H:%M:%S')
+                dtemp = election.end_time.strftime('%Y-%m-%d %H:%M:%S')
                 today = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                if etemp > today:
+                if etemp >= today and dtemp <= today:
+                    election.election_status = status
+                    ballots = Ballot.query.filter(Ballot.election_id == election_id).all()
+                    for b in ballots:
+                        b.status = True
+                    db.session.commit()
+                    return True
+                else:
                     return False
-                election.election_status = status
-                ballots = Ballot.query.filter(Ballot.election_id == election_id).all()
-                for b in ballots:
-                    b.status = True
-                db.session.commit()
-                return True
             else:
                 return False
         elif(status == 'completed'):
-            if election.election_status == 'active':
+            dtemp = election.end_time.strftime('%Y-%m-%d %H:%M:%S')
+            today = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            if dtemp >= today:
+                return False
+            else:
                 election.election_status = status
                 ballots = Ballot.query.filter(Ballot.election_id == election_id).all()
                 for b in ballots:
                     b.status = False
                 db.session.commit()
                 return True
-            else:
-                return False
         else:
             return False
     def set_ballot_status(ballot_id, status):
@@ -155,7 +163,7 @@ class Methods:
         db.session.commit()
         return True
     
-    def update_election(election_id, election_name, start_time, end_time):
+    def update_election(election_id, election_name, start_time, end_time, status):
         election = Election.query.get(election_id)
         elections = Election.query.all()
         for e in elections:
@@ -168,7 +176,6 @@ class Methods:
                 if overlap > 0:
                     print('overlap')
                     return False
-        print(election)
         try:
             election.election_name = election_name
         except:
@@ -180,12 +187,27 @@ class Methods:
     
     def delete_election(election_id):
         election = Election.query.get(election_id)
+        if election.election_status == 'active':
+            return False
+        ballots = Ballot.query.filter(Ballot.election_id == election_id).all()
+        for b in ballots:
+            candidates = Candidate.query.filter(Candidate.ballot_id == b.id).all()
+            for c in candidates:
+                try:
+                    os.remove(os.path.join('app/static/images', str(c.id)+'.jpg'))
+                except:
+                    pass
+                db.session.delete(c)
+            vote = Vote.query.filter(Vote.ballot_id == b.id).all()
+            for v in vote:
+                db.session.delete(v)
+            db.session.delete(b)
         db.session.delete(election)
         db.session.commit()
         return True
     
     def create_candidate(fullname, manifesto, ballot_id):
-        candidate = Candidate.query.filter(Candidate.fullname == fullname).first()
+        candidate = Candidate.query.filter(Candidate.fullname == fullname, Candidate.ballot_id==ballot_id).first()
         temp = None
         if candidate:
             return False
@@ -203,5 +225,22 @@ class Methods:
     
     def check_image(image):
         if image.split('.')[-1] in ['jpg']:
+            return True
+        return False
+    
+    def delete_candidate(candidate_id):
+        candidate = Candidate.query.get(candidate_id)
+        if candidate:
+            ballot= Ballot.query.get(candidate.ballot_id)
+            if ballot.status == True:
+                return False
+            if ballot.election.election_status == 'active' or ballot.election.election_status == 'completed':
+                return False
+            try:
+                os.remove(os.path.join('app/static/images', str(candidate.id)+'.jpg'))
+            except:
+                pass
+            db.session.delete(candidate)
+            db.session.commit()
             return True
         return False

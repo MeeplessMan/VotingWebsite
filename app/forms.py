@@ -65,6 +65,19 @@ class UpdateElectionForm(FlaskForm):
     end_time = DateTimeField('End Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
     submit = SubmitField('Update Election')
 
+class SetElectinoStatusForm(FlaskForm):
+    status = RadioField(
+        'Status',
+        choices=[
+            ('active', 'Active'),
+            ('inactive', 'Inactive'),
+            ('completed', 'Completed'),
+        ],
+        validators=[DataRequired()]
+    )
+    submit = SubmitField('Set Election Status')
+
+
 class UpdateBallotForm(FlaskForm):
     campus = RadioField(
         'Campus',
@@ -89,3 +102,4 @@ class UpdateCandidateForm(FlaskForm):
         validators=[DataRequired()]
     )
     submit = SubmitField('Update Candidate')
+

@@ -2,7 +2,7 @@ from flask import Flask, request, Blueprint, redirect, url_for, flash, render_te
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
 from app.models import User, Ballot, Vote, Candidate, Election
-from app.forms import LoginForm, UpdateBallotForm, UpdateCandidateForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm
+from app.forms import LoginForm, UpdateBallotForm, UpdateCandidateForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm, SetElectinoStatusForm
 from app.methods import Methods
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message
@@ -127,6 +127,8 @@ def adminUserUpdate(id):
         form.campus.data = user.campus
     return render_template('admin/Users/UpdateUser.html', title='Update User', form=form, user=user)
 
+
+
 @app.route('/admin/users/add', methods=['GET', 'POST'])
 @role_required(role="admin")
 @login_required
@@ -218,6 +220,16 @@ def adminCandidates():
     candidates = Candidate.query.all()
     return render_template('admin/Candidates/candidates.html', title='Candidates', candidates=candidates)
 
+@app.route('/admin/candidates/profile/<int:id>')
+@role_required(role="admin")
+@login_required
+def adminCandidateProfile(id):
+    candidate = Candidate.query.get(id)
+    if candidate is None:
+        flash('Candidate not found.')
+        return redirect(url_for('adminCandidates'))
+    return render_template('admin/Candidates/profile.html', title='Candidate Profile', candidate=candidate)
+
 @app.route('/admin/candidates/add/<int:id>', methods=['GET', 'POST'])
 @role_required(role="admin")
 @login_required
@@ -292,6 +304,21 @@ def adminCandidateUpdate(id):
         form.manifesto.data = candidate.manifesto
     return render_template('admin/Candidates/updateCandidate.html', title='Update Candidate', id=candidate.id, form=form)
 
+@app.route('/admin/candidates/delete/<int:id>')
+@role_required(role="admin")
+@login_required
+def adminCandidateDelete(id):
+    candidate = Candidate.query.get(id)
+    if candidate is None:
+        flash('Candidate not found.')
+        return redirect(url_for('adminCandidates'))
+    test = Methods.delete_candidate(candidate.id)
+    if test:
+        flash('Candidate deleted successfully.')
+        return redirect(url_for('adminCandidates'))
+    flash('An error occurred.')
+    return redirect(url_for('adminCandidates'))
+
 
 @app.route('/admin/elections')
 @role_required(role="admin")
@@ -299,6 +326,19 @@ def adminCandidateUpdate(id):
 def adminElections():
     elections = Election.query.all()
     return render_template('admin/Elections/elections.html', title='Elections', elections=elections)
+
+@app.route('/admin/current_election', methods=['GET'])
+@role_required(role="admin")
+@login_required
+def adminCurrentElection():
+    election = Methods.get_current_election()
+    if election is None:
+        flash('No current election. Showing upcoming election.')
+        election = Methods.get_upcoming_election()
+        if election is None:
+            flash('No upcoming election. Showing Elections.')
+            return redirect(url_for('adminElections'))
+    return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
 
 @app.route('/admin/ballots')
 @role_required(role="admin")
@@ -344,24 +384,12 @@ def adminElectionDelete(id):
     flash('Election deleted successfully.')
     return redirect(url_for('adminElections'))
 
-@app.route('/admin/current_election')
-@login_required
-@role_required(role="admin")
-def adminCurrentElection():
-    election = Methods.get_current_election()
-    if election is None:
-        flash('No current election. Showing upcoming election.')
-        election = Methods.get_upcoming_election()
-        if election is None:
-            flash('No upcoming election. Showing Elections.')
-            return redirect(url_for('adminElections'))
-    return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
-
 @app.route('/admin/election/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 @role_required(role="admin")
 def adminElectionUpdate(id):
     form = UpdateElectionForm()
+    form2 = SetElectinoStatusForm()
     election = Election.query.get(id)
     if election is None:
         flash('Election not found.')
@@ -376,11 +404,20 @@ def adminElectionUpdate(id):
             return redirect(url_for('adminElections'))
         flash('An error occurred.')
         return redirect(url_for('adminElectionUpdate', id=election.id))
+    elif form2.validate_on_submit():
+        status = form2.status.data
+        test = Methods.set_election_status(election.id, status)
+        if test:
+            flash(f'{election.election_name} status updated successfully.')
+            return redirect(url_for('adminElections'))
+        flash('An error occurred.')
+        return redirect(url_for('adminElectionUpdate', id=election.id))
     elif request.method == 'GET':
         form.election_name.data = election.election_name
         form.start_time.data = election.start_time
         form.end_time.data = election.end_time
-    return render_template('admin/Elections/updateElection.html', title='Update Election', form=form, election=election)
+        form2.status.data = election.election_status
+    return render_template('admin/Elections/updateElection.html', title='Update Election', form=form, election=election, form2=form2)
 
 @app.route('/admin/reset_password', methods=['GET'])
 @role_required(role="admin")

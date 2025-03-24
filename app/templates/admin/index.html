@@ -15,7 +15,7 @@
         <div class="text-purple-600 mb-4 flex justify-center">
             <i class="fas fa-chart-line text-6xl"></i>
         </div>
-        <h2 class="text-xl font-semibold text-gray-700">Analytics</h2>
+        <h2 class="text-xl font-semibold text-gray-700">Current Election</h2>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-green-300 cursor-pointer">
         <a href="{{url_for('adminUsers')}}">
@@ -26,10 +26,11 @@
         </a>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-red-300 cursor-pointer">
+        <a href="{{url_for('adminElections')}}">
         <div class="text-red-600 mb-4 flex justify-center">
             <i class="fas fa-vote-yea text-6xl"></i>
         </div>
-        <h2 class="text-xl font-semibold text-gray-700">Election</h2>
+        <h2 class="text-xl font-semibold text-gray-700">Election</h2></a>
     </div>
     <div class="bg-white p-10 rounded-2xl shadow-lg text-center border border-yellow-300 cursor-pointer">
         <a href="{{url_for('adminBallots')}}">
