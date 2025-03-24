@@ -1,0 +1,99 @@
+{% extends "voter/base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    header {
+        background: #3498db;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    main {
+        padding: 40px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    section h2 {
+        font-size: 2rem;
+        color: #3498db;
+        margin-bottom: 15px;
+    }
+    section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .team-member {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 250px;
+    }
+    .team-member img {
+        width: 100%;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+    .team-member h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #3498db;
+    }
+    .team-member p {
+        color: #555;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1><i class="fas fa-info-circle"></i> About Us</h1>
+</header>
+<main>
+    <section>
+        <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+        <p>Our mission is to provide a secure, transparent, and reliable digital voting system for all, ensuring that every voice is heard and every vote counts.</p>
+    </section>
+    <section>
+        <h2><i class="fas fa-users"></i> Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="John Doe">
+                <h3>John Doe</h3>
+                <p>CEO & Founder</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Jane Smith">
+                <h3>Jane Smith</h3>
+                <p>Lead Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Sam Brown">
+                <h3>Sam Brown</h3>
+                <p>Security Specialist</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
