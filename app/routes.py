@@ -2,7 +2,7 @@ from flask import Flask, request, Blueprint, redirect, url_for, flash, render_te
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
 from app.models import User, Ballot, Vote, Candidate, Election
-from app.forms import LoginForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm
+from app.forms import LoginForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm
 from app.methods import Methods
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message
@@ -155,24 +155,23 @@ def adminUserAdd():
             flash('No selected file')
             return redirect(url_for('adminUserAdd'))
         if file:
-            f = secure_filename(file.filename)
-            file.save(f)
-            with open(f, 'r') as f:
-                for line in f:
+            file = file.read().decode('utf-8').splitlines()
+            print(file)
+            for line in file:
                     print(line)
                     try:
                         email, fullname, campus = line.split('#')
                     except:
-                        os.remove(file.filename)
-                        flash('Invalid data. Reconfigure your text file: Format: email#fullname#campus')
+                        flash('Invalid data. Reconfigure your text file: Format: email#fullname#campus1')
+                        return redirect(url_for('adminUserAdd'))
+                    if email == '' or fullname == '' or campus != 'Durban' and campus != 'Midlands':
+                        flash('Invalid data. Reconfigure your text file: Format: email#fullname#campus2')
                         return redirect(url_for('adminUserAdd'))
                     if(Methods.check_dut_email(email) == False):
-                        os.remove(file.filename)
                         flash('Only DUT emails are allowed.')
                         return redirect(url_for('adminUserAdd'))
                     if(fullname == '' or campus == ''):
-                        os.remove(file.filename)
-                        flash('Invalid data. Reconfigure your text file: Format: email#fullname#campus')
+                        flash('Invalid data. Reconfigure your text file: Format: email#fullname#campus3')
                         return redirect(url_for('adminUserAdd'))
                     user = User.query.filter_by(email=email).first()
                     if(user != None):
@@ -185,7 +184,6 @@ def adminUserAdd():
                     user.set_password('DUT4Life'+email.split('@')[0])
                     db.session.add(user)
                     db.session.commit()
-            os.remove(file.filename)
             flash('Users added successfully.')
             return redirect(url_for('adminUsers'))
         if request.method == 'GET':
@@ -227,6 +225,49 @@ def adminElections():
     elections = Election.query.all()
     return render_template('admin/Elections/elections.html', title='Elections', elections=elections)
 
+@app.route('/admin/elections/add', methods=['GET', 'POST'])
+@login_required
+@role_required(role="admin")
+def adminElectionAdd():
+    form = ElectionForm()
+    return render_template('admin/Elections/createElection.html', title='Add Election', form=form)
+
+@app.route('/admin/reset_password', methods=['GET'])
+@role_required(role="admin")
+@login_required
+def adminResetPassword():
+    token = generate_verification_token(current_user.email)
+    verify_url = url_for('adminPasswordReset', token=token, _external=True)
+    html = render_template('admin/Profile/resetEmail.html', verify_url=verify_url, title='Password Reset')
+    subject = 'Password Reset'
+    msg = Message(subject, recipients=[current_user.email], html=html)
+    mail.send(msg)
+    flash('A password reset has been sent to your email.')
+    return redirect(url_for('adminIndex'))
+
+@app.route('/admin/reset_password/<token>', methods=['GET', 'POST'])
+@role_required(role="admin")
+@login_required
+def adminPasswordReset(token):
+    email = verify_token(token)
+    if email:
+        user = User.query.filter_by(email=email).first()
+        form = PasswordResetForm()
+        if form.validate_on_submit():
+            password = form.password.data
+            if password == '':
+                flash('Password cannot be empty.')
+                return redirect(url_for('adminPasswordReset', token=token))
+            if user.check_password(password):
+                flash('Password cannot be the same as the previous one.')
+                return redirect(url_for('adminPasswordReset', token=token))
+            user.set_password(password)
+            db.session.commit()
+            flash('Password reset successfully.')
+            return redirect(url_for('adminIndex'))
+        return render_template('admin/Profile/resetPassword.html', title='Reset Password', form=form, token=token)
+    flash('The verification link is invalid or has expired.')
+    return redirect(url_for('adminIndex'))
 # Voter routes
 
 @app.route('/voter/index')

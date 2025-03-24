@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, FileField, RadioField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, FileField, RadioField, DateTimeField
 from wtforms.validators import DataRequired, InputRequired
 
 class LoginForm(FlaskForm):
@@ -52,3 +52,9 @@ class AddCandidateForm(FlaskForm):
     manifesto = StringField('Manifesto', validators=[DataRequired()])
     campus = StringField('Campus', validators=[DataRequired()])
     submit = SubmitField('Add Candidate')
+
+class ElectionForm(FlaskForm):
+    election_name = StringField('Election Name', validators=[DataRequired()])
+    start_time = DateTimeField('Start Time', validators=[DataRequired()])
+    end_time = DateTimeField('End Time', validators=[DataRequired()])
+    submit = SubmitField('Create Election')

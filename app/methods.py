@@ -9,6 +9,13 @@ class Methods:
             return current_election
         else:
             return None
+    
+    def get_recent_election():
+        recent_election = Election.query.order_by(Election.end_time).first()
+        if recent_election:
+            return recent_election
+        else:
+            return None
 
     def get_election_status(self):
         current_election = self.get_current_election()

@@ -103,7 +103,7 @@
                     </button>
                     <ul id="candidate-dropdown" class="bg-blue-800 text-white p-2 rounded-xl ml-2 mt-1 hidden">
                         <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
-                            <a href="#" class="flex items-center gap-3">
+                            <a href="{{url_for('adminCandidates')}}" class="flex items-center gap-3">
                                 <i class="fas fa-table"></i>
                                 <span class="sidebar-text">Candidate Table</span>
                             </a>
@@ -141,7 +141,7 @@
                             </a>
                         </li>
                         <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
-                            <a href="#" class="flex items-center gap-3">
+                            <a href="{{url_for('adminElectionAdd')}}" class="flex items-center gap-3">
                                 <i class="fas fa-plus"></i>
                                 <span class="sidebar-text">Create New Election</span>
                             </a>
@@ -187,7 +187,7 @@
                             </a>
                         </li>
                         <li class="hover:text-gray-300 cursor-pointer p-2 rounded hover:bg-blue-700">
-                            <a href="#" class="flex items-center gap-3">
+                            <a href="{{url_for('adminResetPassword')}}" class="flex items-center gap-3">
                                 <i class="fas fa-key"></i>
                                 <span class="sidebar-text">Reset Password</span>
                             </a>

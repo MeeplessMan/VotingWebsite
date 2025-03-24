@@ -9,6 +9,7 @@
             <thead>
                 <tr>
                     <th class="px-4 py-2 border-b">ID</th>
+                    <th class="px-4 py-2 border-b">Election</th>
                     <th class="px-4 py-2 border-b">Start</th>
                     <th class="px-4 py-2 border-b">End</th>
                     <th class="px-4 py-2 border-b">Status</th>
@@ -19,6 +20,7 @@
                 {% for election in elections %}
                 <tr class="{% if loop.index == 1 %}bg-yellow-100{% endif %}">
                     <td class="px-4 py-2 border-b">{{ election.id }}</td>
+                    <td class="px-4 py-2 border-b">{{ election.election_name }}</td>
                     <td class="px-4 py-2 border-b">{{ election.start_time }}</td>
                     <td class="px-4 py-2 border-b">{{ election.end_time }}</td>
                     <td class="px-4 py-2 border-b">{{ election.election_status }}</td>
