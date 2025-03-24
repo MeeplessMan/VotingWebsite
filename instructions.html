@@ -1,0 +1,84 @@
+{% extends "voter/base.html" %}
+
+{% block title %} Voting Instructions - Digital Voting System {% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    header {
+        background: #3498db;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    main {
+        padding: 40px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    section h2 {
+        font-size: 2rem;
+        color: #3498db;
+        margin-bottom: 15px;
+    }
+    section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+    .instructions {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .instructions ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .instructions ul li {
+        font-size: 1.1rem;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+    .instructions ul li i {
+        margin-right: 10px;
+        color: #2ecc71;
+    }
+    .highlight {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <header>
+        <h1><i class="fas fa-vote-yea"></i> Voting Instructions</h1>
+    </header>
+    <main>
+        <section class="instructions">
+            <h2><i class="fas fa-book"></i> How to Vote</h2>
+            <ul>
+
+                <li><i class="fas fa-users"></i> Step 1: Navigate to the Voting Page.</li>
+                <li><i class="fas fa-list-ol"></i> Step 2: Review the list of candidates.</li>
+                <li><i class="fas fa-check-circle"></i> Step 3: Select one (1) candidate for each available position.</li>
+                <li><i class="fas fa-paper-plane"></i> Step 4: Click Submit Vote and confirm your selection.</li>
+
+            </ul>
+        </section>
+        <p style="text-align: center; margin-top: 20px;"><a href="{{ url_for('voterLogin') }}" class="btn btn-primary">Proceed to Vote</a></p>
+    </main>
+{% endblock %}

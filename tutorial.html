@@ -1,0 +1,76 @@
+{% extends "voter/base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #f4f7fc;
+        color: #333;
+    }
+    header {
+        background-color: #1abc9c;
+        color: white;
+        padding: 30px 0;
+        text-align: center;
+    }
+    main {
+        padding: 40px 15px;
+        max-width: 1200px;
+        margin: 30px auto;
+        background: #ecf0f1;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        color: #1abc9c;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    .step {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: flex-start;
+    }
+    .step i {
+        font-size: 2rem;
+        color: #1abc9c;
+        margin-right: 15px;
+    }
+    .step p {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Digital Voting System Tutorials</h1>
+</header>
+<main>
+    <section id="steps">
+        <h2><i class="fas fa-book-open"></i> Tutorials: How to Vote</h2>
+        <div class="step">
+            <i class="fas fa-user"></i>
+            <p><strong>Step 1: Login or Sign-up</strong><br>To start using the voting system, you need to log in or sign up.</p>
+        </div>
+        <div class="step">
+            <i class="fas fa-check-square"></i>
+            <p><strong>Step 2: Choose Your Candidate</strong><br>Select your preferred candidate from the available options.</p>
+        </div>
+        <div class="step">
+            <i class="fas fa-vote-yea"></i>
+            <p><strong>Step 3: Cast Your Vote</strong><br>Click the "Vote" button to submit your selection.</p>
+        </div>
+        <div class="step">
+            <i class="fas fa-chart-bar"></i>
+            <p><strong>Step 4: View Results</strong><br>Check the real-time results after voting.</p>
+        </div>
+    </section>
+</main>
+{% endblock %}
