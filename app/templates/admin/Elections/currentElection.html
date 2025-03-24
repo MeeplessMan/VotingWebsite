@@ -16,6 +16,7 @@
         <span class="{% if election.election_status == 'inactive' %}text-red-500{% elif election.election_status == 'active' %}text-green-500{% elif election.election_status == 'completed' %}text-blue-500{% endif %}">
             {{ election.election_status }}
         </span>
+        <a href="{{url_for('adminSetCurrentElectionStatus', id=election.id, status='active')}}" class="ml-2 px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Set Completed</a>
     </p>
 
     {% for ballot in ballots %}
