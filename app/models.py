@@ -40,11 +40,11 @@ class Vote(db.Model):
     
 class Ballot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    candidate_list = db.Column(db.String, nullable=False)
     campus = db.Column(db.String(20), nullable=False)
     selections = db.Column(db.Integer, nullable=False)
     #voting_options = db.Column(db.String(80), nullable=False) # not needed
-    votes = db.Column(db.Integer, nullable=False)
+    votes = db.Column(db.Integer, nullable=False, default=0)
+    status = db.Column(db.Boolean, nullable=False, default=False)
     candidates = db.relationship('Candidate', backref='ballot', lazy=True)
     election_id = db.Column(db.Integer, db.ForeignKey('election.id', name='fk_ballot_election'), nullable=False)
 

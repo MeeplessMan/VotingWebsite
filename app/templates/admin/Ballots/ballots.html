@@ -2,5 +2,38 @@
 {%block title%}{{title}}{%endblock%}
 {%block styles%}{%endblock%}
 {%block content%}
-
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Ballots</h1>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border-b">ID</th>
+                    <th class="px-4 py-2 border-b">Election ID</th>
+                    <th class="px-4 py-2 border-b">Campus</th>
+                    <th class="px-4 py-2 border-b">Selections</th>
+                    <th class="px-4 py-2 border-b">Votes</th>
+                    <th class="px-4 py-2 border-b">Status</th>
+                    <th class="px-4 py-2 border-b">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ballot in ballots %}
+                <tr>
+                    <td class="px-4 py-2 border-b">{{ ballot.id }}</td>
+                    <td class="px-4 py-2 border-b">{{ ballot.election_id }}</td>
+                    <td class="px-4 py-2 border-b">{{ ballot.campus }}</td>
+                    <td class="px-4 py-2 border-b">{{ ballot.selections }}</td>
+                    <td class="px-4 py-2 border-b">{{ ballot.votes }}</td>
+                    <td class="px-4 py-2 border-b">{{ ballot.status }}</td>
+                    <td class="px-4 py-2 border-b">
+                        <a href="#" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Update</a>
+                        <a href="#" class="ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {%endblock%}

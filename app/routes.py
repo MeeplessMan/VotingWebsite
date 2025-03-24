@@ -2,13 +2,12 @@ from flask import Flask, request, Blueprint, redirect, url_for, flash, render_te
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
 from app.models import User, Ballot, Vote, Candidate, Election
-from app.forms import LoginForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm
+from app.forms import LoginForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm
 from app.methods import Methods
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message
 from functools import wraps
 from werkzeug.utils import secure_filename
-import os
 
 def generate_verification_token(email):
     return serializer.dumps(email, salt='shadow-Wizard-money-gang')
@@ -225,12 +224,61 @@ def adminElections():
     elections = Election.query.all()
     return render_template('admin/Elections/elections.html', title='Elections', elections=elections)
 
+@app.route('/admin/ballots')
+@role_required(role="admin")
+@login_required
+def adminBallots():
+    ballots = Ballot.query.all()
+    return render_template('admin/Ballots/ballots.html', title='Ballots', ballots=ballots)
+
 @app.route('/admin/elections/add', methods=['GET', 'POST'])
 @login_required
 @role_required(role="admin")
 def adminElectionAdd():
     form = ElectionForm()
+    if form.validate_on_submit():
+        election_name = form.election_name.data
+        start_time = form.start_time.data
+        end_time = form.end_time.data
+        election = Election.query.filter_by(election_name=election_name).first()
+        if election is not None:
+            flash('Election already exists.')
+            return redirect(url_for('adminElectionAdd'))
+        success = Methods.create_election(election_name, start_time, end_time)
+        if success:
+            election = Election.query.filter_by(election_name=election_name).first()
+            Methods.create_ballot('Durbam', 8, election.id)
+            Methods.create_ballot('Midlands', 7, election.id)
+            flash(f'{election_name} added successfully with corresponding ballots.')
+            return redirect(url_for('adminElections'))
+        flash('An error occurred')
+        return redirect(url_for('adminElectionAdd'))
     return render_template('admin/Elections/createElection.html', title='Add Election', form=form)
+
+@app.route('admin/election/update/<int=id>', methods=['GET', 'POST'])
+@login_required
+@role_required(role="admin")
+def adminElectionUpdate(id):
+    form = UpdateElectionForm()
+    election = Election.query.get(id)
+    if election is None:
+        flash('Election not found.')
+        return redirect(url_for('adminElections'))
+    if form.validate_on_submit():
+        election.election_name = form.election_name.data
+        election.start_time = form.start_time.data
+        election.end_time = form.end_time.data
+        test = Methods.update_election(election.id, election.election_name, election.start_time, election.end_time)
+        if test:
+            flash(f'{election.election_name} updated successfully.')
+            return redirect(url_for('adminElections'))
+        flash('An error occurred.')
+        return redirect(url_for('adminElectionUpdate', id=election.id))
+    elif request.method == 'GET':
+        form.election_name.data = election.election_name
+        form.start_time.data = election.start_time
+        form.end_time.data = election.end_time
+    return render_template('admin/Elections/updateElection.html', title='Update Election', form=form, election=election)
 
 @app.route('/admin/reset_password', methods=['GET'])
 @role_required(role="admin")

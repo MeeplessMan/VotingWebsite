@@ -55,6 +55,13 @@ class AddCandidateForm(FlaskForm):
 
 class ElectionForm(FlaskForm):
     election_name = StringField('Election Name', validators=[DataRequired()])
-    start_time = DateTimeField('Start Time', validators=[DataRequired()])
-    end_time = DateTimeField('End Time', validators=[DataRequired()])
+    election_name = StringField('Election Name', validators=[DataRequired()])
+    start_time = DateTimeField('Start Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
+    end_time = DateTimeField('End Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
     submit = SubmitField('Create Election')
+
+class UpdateElectionForm(FlaskForm):
+    election_name = StringField('Election Name', validators=[DataRequired()])
+    start_time = DateTimeField('Start Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
+    end_time = DateTimeField('End Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
+    submit = SubmitField('Update Election')

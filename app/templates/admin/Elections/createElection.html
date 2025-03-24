@@ -45,7 +45,7 @@
 
         flatpickr("input[name='start_time']", {
             enableTime: true,
-            dateFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d h:i K",
             minDate: oneHourLater,
             onChange: function(selectedDates, dateStr, instance) {
                 const endTimePicker = document.querySelector('input[name="end_time"]')._flatpickr;
@@ -55,7 +55,7 @@
 
         flatpickr("input[name='end_time']", {
             enableTime: true,
-            dateFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d h:i K",
             minDate: new Date(oneHourLater.getTime() + 60 * 60 * 1000)
         });
     });

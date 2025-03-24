@@ -3,6 +3,9 @@ from datetime import datetime
 from app.models import User, Vote, Ballot, Candidate, Election
 
 class Methods:
+    def __init__(self):
+        pass
+
     def get_current_election():
         current_election = Election.query.filter(Election.election_status == 'active').first()
         if current_election:
@@ -60,3 +63,42 @@ class Methods:
             return True
         else:
             return False
+    def create_ballot(campus, selections, election_id):
+        ballot = Ballot(campus=campus, selections=selections, election_id=election_id)
+        db.session.add(ballot)
+        db.session.commit()
+        return True
+    
+    def create_election(election_name, start_time, end_time):
+        overlapping_elections = Election.query.filter(
+            (Election.start_time <= end_time) & (Election.end_time >= start_time)
+        ).all()
+        
+        if overlapping_elections:
+            return False
+        try:   
+            election = Election(election_name=election_name, start_time=start_time, end_time=end_time, election_status='inactive')
+        except:
+            return False
+        db.session.add(election)
+        db.session.commit()
+        return True
+    
+    def update_election(election_id, election_name, start_time, end_time):
+        election = Election.query.get(election_id)
+        overlapping_elections = Election.query.filter(
+            (Election.start_time <= end_time) & (Election.end_time >= start_time)
+        ).all()
+        if overlapping_elections:
+            return False
+        try:
+            election.election_name = election_name
+        except:
+            return False
+        election.start_time = start_time
+        election.end_time = end_time
+        db.session.commit()
+        return True
+    
+    def __init__(self):
+        pass
