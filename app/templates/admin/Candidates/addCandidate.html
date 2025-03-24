@@ -1,8 +1,48 @@
 {%extends 'admin/base.html'%}
 {%block title%}{{title}}{%endblock%}
 {%block styles%}
-
-{%endblock%}
-{%block content%}
-
+<style>
+    .preview {
+        width: 150px;
+        height: 150px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Add Candidate</h1>
+    <form method="POST" action="{{ url_for('adminCandidateAdd', id=id) }}" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg mx-auto">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+            {{ form.candidate_name.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.candidate_name(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+        </div>
+        <div class="mb-4">
+            {{ form.manifesto.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.manifesto(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+        </div>
+        <div class="mb-4">
+            {{ form.image.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.image(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+            <img id="preview" class="preview" src="#" alt="Image Preview" style="display: none;">
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Add Candidate
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('form_image').onchange = function (evt) {
+        const [file] = evt.target.files;
+        if (file) {
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        }
+    };
+</script>  
 {%endblock%}

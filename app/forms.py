@@ -50,7 +50,6 @@ class AddCandidateForm(FlaskForm):
     image = FileField('Candidate Image', validators=[DataRequired()])
     candidate_name = StringField('Candidate Name', validators=[DataRequired()])
     manifesto = StringField('Manifesto', validators=[DataRequired()])
-    campus = StringField('Campus', validators=[DataRequired()])
     submit = SubmitField('Add Candidate')
 
 class ElectionForm(FlaskForm):
@@ -65,3 +64,28 @@ class UpdateElectionForm(FlaskForm):
     start_time = DateTimeField('Start Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
     end_time = DateTimeField('End Time', format='%Y-%m-%d %I:%M %p', validators=[DataRequired()])
     submit = SubmitField('Update Election')
+
+class UpdateBallotForm(FlaskForm):
+    campus = RadioField(
+        'Campus',
+        choices=[
+            ('Durban', 'Durban'),
+            ('Midlands', 'Midlands'),
+        ],
+        validators=[DataRequired()]
+    )
+    submit = SubmitField('Update Ballot')
+
+class UpdateCandidateForm(FlaskForm):
+    image = FileField('Candidate Image', validators=[DataRequired()])
+    fullname = StringField('Candidate Name', validators=[DataRequired()])
+    manifesto = StringField('Manifesto', validators=[DataRequired()])
+    campus = RadioField(
+        'Campus',
+        choices=[
+            ('Durban', 'Durban'),
+            ('Midlands', 'Midlands'),
+        ],
+        validators=[DataRequired()]
+    )
+    submit = SubmitField('Update Candidate')

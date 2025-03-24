@@ -54,19 +54,17 @@ class Ballot(db.Model):
 class Candidate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fullname = db.Column(db.String(45), nullable=False)
-    manifesto = db.Column(db.String(1000), nullable=False)
+    manifesto = db.Column(db.String, nullable=False)
     campus = db.Column(db.String(45), nullable=False)
-    number_votes = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Boolean, nullable=False, default=False)
+    number_votes = db.Column(db.Integer, nullable=False, default=0)
     ballot_id = db.Column(db.Integer, db.ForeignKey('ballot.id', name='fk_candidate_ballot'), nullable=False)
 
     def __repr__(self):
-        return '<Candidate {}>'.format(self.candidate_id)
+        return '<Candidate {}>'.format(self.id)
 
 class Election(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    election_name = db.Column(db.String(45), nullable
-= False)
+    election_name = db.Column(db.String(45), nullable=False)
     start_time = db.Column(db.DateTime, default=datetime.now)
     end_time = db.Column(db.DateTime, default=datetime.now)
     election_status = db.Column(db.String(20), nullable=False) 

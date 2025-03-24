@@ -2,12 +2,13 @@ from flask import Flask, request, Blueprint, redirect, url_for, flash, render_te
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
 from app.models import User, Ballot, Vote, Candidate, Election
-from app.forms import LoginForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm
+from app.forms import LoginForm, UpdateBallotForm, UpdateCandidateForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm
 from app.methods import Methods
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message
 from functools import wraps
 from werkzeug.utils import secure_filename
+import os
 
 def generate_verification_token(email):
     return serializer.dumps(email, salt='shadow-Wizard-money-gang')
@@ -217,6 +218,81 @@ def adminCandidates():
     candidates = Candidate.query.all()
     return render_template('admin/Candidates/candidates.html', title='Candidates', candidates=candidates)
 
+@app.route('/admin/candidates/add/<int:id>', methods=['GET', 'POST'])
+@role_required(role="admin")
+@login_required
+def adminCandidateAdd(id):
+    form = AddCandidateForm()
+    if form.validate_on_submit():
+        image = form.image.data
+        candidate_name = form.candidate_name.data
+        manifesto = form.manifesto.data
+        ballot_id = id
+        if Methods.check_image(image.filename) == False:
+            flash('Invalid image format: require .png.')
+            return redirect(url_for('adminCandidateAdd'))
+        test = Methods.create_candidate(candidate_name, manifesto, ballot_id)
+        if test:
+            candidate = Candidate.query.filter_by(fullname=candidate_name).first()
+            if image.filename != '':
+                filename = secure_filename(str(candidate.id) + '.jpg')
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            flash(f'{candidate_name} added successfully.')
+        else:
+            flash('An error occurred.')
+        return redirect(url_for('adminCandidates'))
+    if request.method == 'GET':
+        form.candidate_name.data = form.candidate_name.data
+        form.manifesto.data = form.manifesto.data
+    return render_template('admin/Candidates/addCandidate.html', title='Add Candidate', form=form, id=id)
+
+@app.route('/admin/candidates/update/<int:id>', methods=['GET', 'POST'])
+@role_required(role="admin")
+@login_required
+def adminCandidateUpdate(id):
+    candidate = Candidate.query.get(id)
+    form = UpdateCandidateForm()
+    if candidate is None:
+        flash('Candidate not found.')
+        return redirect(url_for('adminCandidates'))
+    if form.validate_on_submit():
+        fullname = form.fullname.data
+        manifesto = form.manifesto.data
+        campus = form.campus.data
+        image = form.image.data
+        if image.filename == '':
+            flash('No selected file')
+            return redirect(url_for('adminCandidateUpdate', id=candidate.id))
+        if candidate.fullname != fullname:
+            candidate.fullname = fullname
+        if candidate.manifesto != manifesto:
+            candidate.manifesto = manifesto
+        if candidate.campus != campus:
+            if candidate.campus != 'Durban' and candidate.campus != 'Midlands':
+                candidate.campus = campus    
+            elif campus == 'Durban':
+                candidate.ballot_id = candidate.ballot_id - 1
+            else:
+                candidate.ballot_id = candidate.ballot_id + 1
+            candidate.campus = campus
+        db.session.commit()
+        if Methods.check_image(image.filename) == False:
+            flash('Invalid image format: require .jpg')
+            return redirect(url_for('adminCandidateUpdate', id=candidate.id))
+        filename = secure_filename(str(candidate.id) + '.jpg')
+        try:
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        except:
+            pass
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        flash(f'{candidate.fullname} updated successfully.')
+        return redirect(url_for('adminCandidates'))
+    elif request.method == 'GET':
+        form.fullname.data = candidate.fullname
+        form.manifesto.data = candidate.manifesto
+    return render_template('admin/Candidates/updateCandidate.html', title='Update Candidate', id=candidate.id, form=form)
+
+
 @app.route('/admin/elections')
 @role_required(role="admin")
 @login_required
@@ -247,7 +323,7 @@ def adminElectionAdd():
         success = Methods.create_election(election_name, start_time, end_time)
         if success:
             election = Election.query.filter_by(election_name=election_name).first()
-            Methods.create_ballot('Durbam', 8, election.id)
+            Methods.create_ballot('Durban', 8, election.id)
             Methods.create_ballot('Midlands', 7, election.id)
             flash(f'{election_name} added successfully with corresponding ballots.')
             return redirect(url_for('adminElections'))

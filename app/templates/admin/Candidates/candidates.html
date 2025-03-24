@@ -30,7 +30,7 @@
                     <td class="px-4 py-2 border-b">{{ candidate.campus }}</td>
                     <td class="px-4 py-2 border-b">{{ candidate.number_votes }}</td>
                     <td class="px-4 py-2 border-b">
-                        <a href="{{ url_for('adminUpdateCandidate', candidate_id=candidate.id) }}" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Update</a>
+                        <a href="{{url_for('adminCandidateUpdate', id=candidate.id)}}" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Update</a>
                         <button class="ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
                     </td>
                 </tr>

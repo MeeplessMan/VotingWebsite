@@ -183,3 +183,25 @@ class Methods:
         db.session.delete(election)
         db.session.commit()
         return True
+    
+    def create_candidate(fullname, manifesto, ballot_id):
+        candidate = Candidate.query.filter(Candidate.fullname == fullname).first()
+        temp = None
+        if candidate:
+            return False
+        ballot = Ballot.query.get(ballot_id)
+        if ballot.status == True:
+            return False
+        try:
+            temp = Candidate(fullname=fullname, manifesto=manifesto, campus=ballot.campus, ballot_id=ballot_id)
+        except:
+            return False
+        print(temp.fullname)
+        db.session.add(temp)
+        db.session.commit()
+        return True
+    
+    def check_image(image):
+        if image.split('.')[-1] in ['jpg']:
+            return True
+        return False
