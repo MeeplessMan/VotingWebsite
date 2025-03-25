@@ -3,7 +3,7 @@
 
 ## Description
 
-The app is deployed at dutsrcelections.site (admin can be accessed by the url dutsrcelections.site/admin/login)
+The app is deployed at dutsrcelections.site (admin can be accessed by the url dutsrcelections.site/admin/login and admin is only compatible with laptops and desktops)
 
 This is a web application developed for the purpose of replacing the current SRC Voting System in place for Durban University of Technology(DUT). This system incompases the student voting proccess and the administrative system to manage the yearly voting for SRC's at DUT.
 
