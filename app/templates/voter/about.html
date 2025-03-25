@@ -4,6 +4,58 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welecome to DUT About page</h1>
-    <button><a href="{{ url_for('voterLogin') }}">Vote</a></button>
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">About This Application</h2>
+        <p class="text-gray-700 mb-4">
+            This application is designed to replace the current DUT SRC Election system. It aims to provide a more efficient and user-friendly platform for conducting elections at DUT.
+        </p>
+        <p class="text-gray-700 mb-4">
+            The election system supports two campuses: Midlands and Durban. Voters from the Durban campus can select up to 8 candidates, while voters from the Midlands campus can select up to 7 candidates.
+        </p>
+        <h3 class="text-2xl font-bold mb-4">Contributors</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">MeeplessMan</p>
+                <p class="text-gray-600">Atesh Reddy</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">Prevani</p>
+                <p class="text-gray-600">Prevani Moodley</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">Magubane20||</p>
+                <p class="text-gray-600">Siboniso Magubane</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">tshepo-exe</p>
+                <p class="text-gray-600">Tshepo Masiteng</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">ndeluOmncane</p>
+                <p class="text-gray-600">Amahle Bhulose</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">4444ToniHector</p>
+                <p class="text-gray-600">Ndingeko Unathi Gumede</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">nkanyiso02</p>
+                <p class="text-gray-600">Nkanyiso Xaba</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">ShabalalaThabo</p>
+                <p class="text-gray-600">Thabo Shabalala</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">ViolanReddy</p>
+                <p class="text-gray-600">Violan Reddy</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <p class="text-gray-800 font-bold">Kea02-dot</p>
+                <p class="text-gray-600">Keabetswe Kadiege</p>
+            </div>
+        </div>
+    </div>
+</div> 
 {% endblock %}

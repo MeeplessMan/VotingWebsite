@@ -1,0 +1,35 @@
+{% extends 'voter/base.html'%}
+{% block title %}{{title}}{% endblock %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">Profile Information</h2>
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Full Name:</label>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <p class="text-gray-600 text-lg">{{ current_user.fullname }}</p>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Email:</label>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <p class="text-gray-600 text-lg">{{ current_user.email }}</p>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Registered:</label>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <p class="text-gray-600 text-lg">{{ 'Yes' if current_user.registered else 'No' }}</p>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Campus:</label>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <p class="text-gray-600 text-lg">{{ current_user.campus }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,9 +1,36 @@
 {% extends "voter/base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-    <h1>Welecome to DUT SRC Elections</h1>
-    <button><a href="{{ url_for('voterLogin') }}">Vote</a></button>
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="{{url_for('voterInstructions')}}" class="block bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-vote-yea text-blue-500 text-4xl"></i>
+            </div>
+            <h3 class="text-center text-xl font-bold mt-4">Vote</h3>
+        </a>
+        <a href="{{ url_for('voterLogout') }}" class="block bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-sign-out-alt text-red-500 text-4xl"></i>
+            </div>
+            <h3 class="text-center text-xl font-bold mt-4">Logout</h3>
+        </a>
+        <a href="{{ url_for('voterAbout') }}" class="block bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-info-circle text-green-500 text-4xl"></i>
+            </div>
+            <h3 class="text-center text-xl font-bold mt-4">About</h3>
+        </a>
+        <a href="{{url_for('voterProfile')}}" class="block bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-user text-yellow-500 text-4xl"></i>
+            </div>
+            <h3 class="text-center text-xl font-bold mt-4">Profile</h3>
+        </a>
+    </div>
+</div>
 {% endblock %}

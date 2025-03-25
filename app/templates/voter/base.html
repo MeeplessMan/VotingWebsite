@@ -1,48 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0. shrink-to-fit=no">
-        <title>{% block title%}{% endblock %}</title>
-        {% block styles %}{% endblock %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles/voterMain.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#">DUT SRC Elections</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% block styles %}{% endblock %}
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a class="text-white text-2xl font-bold" href="#">DUT SRC Elections</a>
+            <button class="text-white block lg:hidden" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{url_for('voterIndex')}}">Home</a>
-                {%if current_user.is_authenticated%}
-                    <a class="nav-item nav-link" href="{{url_for('voterLogout')}}">Logout</a>
-                {%endif%}
-                {%if not current_user.is_authenticated%}
-                    <a class="nav-item nav-link" href="{{url_for('voterLogin')}}">Login</a>
-                {%endif%}
-                <a class="nav-item nav-link" href="{{url_for('voterAbout')}}">About</a>
-                <a class="nav-item nav-link" href="{{url_for('voterLogin')}}">Contact</a>
-              </div>
+            <div class="hidden lg:flex lg:items-center lg:space-x-4" id="navbar-menu">
+                <a class="text-white hover:text-gray-200" href="{{ url_for('voterIndex') }}">Home</a>
+                {% if current_user.is_authenticated %}
+                    <div class="relative">
+                        <button class="text-white focus:outline-none" id="profile-toggle">
+                            Profile <i class="fas fa-caret-down"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden" id="profile-menu">
+                            <a href="{{url_for('voterProfile')}}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">View Profile</a>
+                            <a href="{{ url_for('voterRequestPasswordReset') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Reset Password</a>
+                            <a href="{{ url_for('voterLogout') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a class="text-white hover:text-gray-200" href="{{ url_for('voterLogin') }}">Login</a>
+                {% endif %}
+                <a class="text-white hover:text-gray-200" href="{{ url_for('voterAbout') }}">About</a>
             </div>
-            <a class="navbar-brand" href="#">{{current_user.email}}</a>
-        </nav>
-        {%for message in get_flashed_messages()%}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{message}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {%endfor%}
-        <div class="container">
-          {% block content %}{% endblock %}
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+        <div class="lg:hidden mt-2 hidden" id="navbar-menu-mobile">
+            <a class="block text-white hover:text-gray-200 py-2" href="{{ url_for('voterIndex') }}">Home</a>
+            {% if current_user.is_authenticated %}
+                <a class="block text-white hover:text-gray-200 py-2" href="{{ url_for('voterLogout') }}">Logout</a>
+                <a class="block text-white hover:text-gray-200 py-2" href="{{url_for('voterProfile')}}">View Profile</a>
+                <a class="block text-white hover:text-gray-200 py-2" href="{{ url_for('voterRequestPasswordReset') }}">Reset Password</a>
+            {% else %}
+                <a class="block text-white hover:text-gray-200 py-2" href="{{ url_for('voterLogin') }}">Login</a>
+            {% endif %}
+            <a class="block text-white hover:text-gray-200 py-2" href="{{ url_for('voterAbout') }}">About</a>
+        </div>
+    </nav>
+    {% for message in get_flashed_messages() %}
+        <div class="container mx-auto mt-4">
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+                <p>{{ message }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container mx-auto mt-8">
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+        document.getElementById('navbar-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('navbar-menu-mobile');
+            menu.classList.toggle('hidden');
+        });
+
+        document.getElementById('profile-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('profile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
 </html>

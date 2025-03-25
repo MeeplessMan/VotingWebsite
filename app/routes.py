@@ -563,3 +563,66 @@ def voterLogout():
 @login_required
 def voterInstructions():
     return render_template('voter/instructions.html', title='Voter Instructions')
+
+@app.route('/voter/forgot_password', methods=['GET', 'POST'])
+def voterForgotPassword():
+    form = PasswordResetRequestForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        if Methods.check_dut_email(email):
+            user = User.query.filter_by(email=email).first()
+            if user:
+                token = generate_verification_token(user.email)
+                reset_url = url_for('voterPasswordReset', token=token, _external=True)
+                html = render_template('voter/forgotPasswordEmail.html', reset_url=reset_url, title='Password Reset')
+                subject = 'Password Reset'
+                msg = Message(subject, recipients=[user.email], html=html)
+                mail.send(msg)
+                flash('A password reset has been sent to your email.')
+                return redirect(url_for('voterForgotPassword'))
+            flash('User not found.')
+            return redirect(url_for('voterForgotPassword'))
+        flash('Invalid email.')
+        return redirect(url_for('voterForgotPassword'))
+    elif request.method == 'GET':
+        form.email.data = form.email.data
+    return render_template('voter/forgotPassword.html', title='Forgot Password', form=form)
+
+@app.route('/voter/request_password_reset', methods=['GET'])
+@login_required
+def voterRequestPasswordReset():
+    token = generate_verification_token(current_user.email)
+    reset_url = url_for('voterPasswordReset', token=token, _external=True)
+    html = render_template('voter/forgotPasswordEmail.html', reset_url=reset_url, title='Password Reset')
+    subject = 'Password Reset'
+    msg = Message(subject, recipients=[current_user.email], html=html)
+    mail.send(msg)
+    flash('A password reset has been sent to your email.')
+    return redirect(url_for('voterIndex'))
+
+@app.route('/voter/profile')
+@login_required
+def voterProfile():
+    return render_template('voter/profile.html', title='Voter Profile')
+
+@app.route('/voter/reset_password/<token>', methods=['GET', 'POST'])
+def voterPasswordReset(token):
+    email = verify_token(token)
+    if email:
+        user = User.query.filter_by(email=email).first()
+        form = PasswordResetForm()
+        if form.validate_on_submit():
+            password = form.password.data
+            if password == '':
+                flash('Password cannot be empty.')
+                return redirect(url_for('voterPasswordReset', token=token))
+            if user.check_password(password):
+                flash('Password cannot be the same as the previous one.')
+                return redirect(url_for('voterPasswordReset', token=token))
+            user.set_password(password)
+            db.session.commit()
+            flash('Password reset successfully.')
+            return redirect(url_for('voterLogin'))
+        return render_template('voter/resetPassword.html', title='Reset Password', form=form, token=token)
+    flash('The verification link is invalid or has expired.')
+    return redirect(url_for('voterLogin'))

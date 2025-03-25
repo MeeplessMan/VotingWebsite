@@ -163,7 +163,7 @@ class Methods:
         db.session.commit()
         return True
     
-    def update_election(election_id, election_name, start_time, end_time, status):
+    def update_election(election_id, election_name, start_time, end_time):
         election = Election.query.get(election_id)
         elections = Election.query.all()
         for e in elections:

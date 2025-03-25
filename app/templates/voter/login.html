@@ -1,30 +1,27 @@
 {% extends "voter/base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block styles %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<h1>Voter Login</h1>
-<div class="container">
-    <div class="login-box">
-        <h2>Sign In</h2>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
         <form action="{{ url_for('voterLogin') }}" method="post">
             {{ form.hidden_tag() }}
-            <div class="input-group">
-                {{ form.email.label }}<br>
-                {{ form.email(size=32) }}
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700"><i class="fas fa-envelope"></i> {{ form.email.label }}</label>
+                {{ form.email(class="form-control w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", id="email") }}
             </div>
-
-            <div class="input-group">
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700"><i class="fas fa-lock"></i> {{ form.password.label }}</label>
+                {{ form.password(class="form-control w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", id="password") }}
             </div>
-
-            <div class="options">
-                <a href="#">Forgot Password?</a>
+            <div class="flex items-center justify-between mb-4">
+                <a href="{{url_for('voterForgotPassword')}}" class="text-blue-500 hover:underline">Forgot Password?</a>
             </div>
-            <p>{{ form.submit() }}</p>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Sign In</button>
         </form>
     </div>
 </div>
