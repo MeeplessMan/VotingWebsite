@@ -1,0 +1,72 @@
+{%extends 'voter/base.html'%}
+{%block title%}{{title}}{%endblock%}
+{%block styles%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{%endblock%}
+{%block content%}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">{{ election.election_name }}</h2>
+        <h3 class="text-2xl font-bold mb-4 text-center">{{ ballot.campus }} Campus</h3>
+        <form action="{{ url_for('voterVote') }}" method="post" onsubmit="return validateSelection()">
+            {{ form.hidden_tag() }}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 border-b">Select</th>
+                            <th class="px-4 py-2 border-b">Full Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidate in candidates %}
+                        <tr>
+                            <td class="px-4 py-2 border-b text-center">
+                                <input type="checkbox" name="candidate" value="{{ candidate.id }}" class="candidate-checkbox" onclick="updateSelection(this)">
+                            </td>
+                            <td class="px-4 py-2 border-b">{{ candidate.fullname }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden" name="selectedCandidates" id="selectedCandidates">
+            <div class="text-center mt-4">
+                <p class="text-gray-700">Selected Candidates: <span id="selected-count">0</span> / {{ ballot.selections }}</p>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const maxSelections = {{ ballot.selections }};
+    let selectedCandidates = [];
+
+    function updateSelection(checkbox) {
+        if (checkbox.checked) {
+            if (selectedCandidates.length < maxSelections) {
+                selectedCandidates.push(checkbox.value);
+            } else {
+                checkbox.checked = false;
+                alert(`You can only select up to ${maxSelections} candidates.`);
+            }
+        } else {
+            const index = selectedCandidates.indexOf(checkbox.value);
+            if (index > -1) {
+                selectedCandidates.splice(index, 1);
+            }
+        }
+        document.getElementById('selected-count').innerText = selectedCandidates.length;
+        document.getElementById('selectedCandidates').value = selectedCandidates.join(',');
+    }
+
+    function validateSelection() {
+        if (selectedCandidates.length === 0) {
+            alert('Please select at least one candidate.');
+            return false;
+        }
+        return true;
+    }
+</script>
+{%endblock%}

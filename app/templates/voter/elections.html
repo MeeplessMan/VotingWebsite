@@ -1,0 +1,53 @@
+{%extends 'voter/base.html'%}
+{%block title%}{{title}}{%endblock%}
+{%block styles%}{%endblock%}
+{%block content%}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4 text-center">Elections</h1>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border-b">Election</th>
+                    <th class="px-4 py-2 border-b">Start</th>
+                    <th class="px-4 py-2 border-b">End</th>
+                    <th class="px-4 py-2 border-b">Status</th>
+                    <th class="px-4 py-2 border-b">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="electionTable">
+                {% for election in elections %}
+                <tr class="election-row {% if election.election_status == 'active' %}bg-yellow-100{% endif %}" data-status="{{ election.election_status }}">
+                    <td class="px-4 py-2 border-b">{{ election.election_name }}</td>
+                    <td class="px-4 py-2 border-b">{{ election.start_time }}</td>
+                    <td class="px-4 py-2 border-b">{{ election.end_time }}</td>
+                    <td class="px-4 py-2 border-b">{{ election.election_status }}</td>
+                    <td class="px-4 py-2 border-b">
+                        <a href="{{ url_for('voterElection', id=election.id) }}" class="px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function filterElections(status) {
+        const rows = document.querySelectorAll('.election-row');
+        rows.forEach(row => {
+            if (status === 'all') {
+                row.style.display = '';
+            } else if (row.getAttribute('data-status') === status) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function confirmDelete(electionName) {
+        return confirm(`Are you sure you want to delete the election "${electionName}"?`);
+    }
+</script>
+{%endblock%}

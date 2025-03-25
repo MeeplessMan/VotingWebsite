@@ -26,7 +26,7 @@ class Methods:
                 etemp = election.start_time.strftime('%Y-%m-%d %H:%M:%S')
                 dtemp = election.end_time.strftime('%Y-%m-%d %H:%M:%S')
                 today = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                if etemp >= today and dtemp <= today:
+                if etemp <= today and dtemp >= today:
                     election.election_status = status
                     ballots = Ballot.query.filter(Ballot.election_id == election_id).all()
                     for b in ballots:

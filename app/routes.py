@@ -2,7 +2,7 @@ from flask import Flask, request, Blueprint, redirect, url_for, flash, render_te
 from flask_sqlalchemy import SQLAlchemy
 from app import app, db, login, mail, serializer
 from app.models import User, Ballot, Vote, Candidate, Election
-from app.forms import LoginForm, UpdateBallotForm, UpdateCandidateForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm, SetElectinoStatusForm
+from app.forms import LoginForm, UpdateBallotForm, UpdateCandidateForm, UpdateUserForm, AddCandidateForm, AddUserForm, AddUsersForm, UpdateUserForm, PasswordResetForm, PasswordResetRequestForm, ElectionForm, UpdateElectionForm, SetElectinoStatusForm, VoteForm
 from app.methods import Methods
 from flask_login import current_user, login_user, logout_user, login_required, AnonymousUserMixin
 from flask_mail import Message
@@ -368,7 +368,15 @@ def adminCurrentElection():
     if election is None:
         flash('No current election.')
         return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
-    return render_template('admin/Elections/currentElection.html', title='Current Election', election=election)
+    ballots = Ballot.query.filter(Ballot.election_id == election.id).all()
+    durbancandidates = None
+    midlandscandidates = None
+    for ballot in ballots:
+        if ballot.campus == 'Durban':
+            durbancandidates = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+        else:
+            midlandscandidates = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+    return render_template('admin/Elections/currentElection.html', title='Current Election', election=election, ballots=ballots, durban_candidates=durbancandidates, midlands_candidates=midlandscandidates)
 
 @app.route('/admin/current_election/set/<int:id>/<string:status>', methods=['GET'])
 @role_required(role="admin")
@@ -626,3 +634,85 @@ def voterPasswordReset(token):
         return render_template('voter/resetPassword.html', title='Reset Password', form=form, token=token)
     flash('The verification link is invalid or has expired.')
     return redirect(url_for('voterLogin'))
+
+@app.route('/voter/voting')
+@login_required
+def voterVoting():
+    election = Methods.get_current_election()
+    if election is None:
+        flash('No current election.')
+        return redirect(url_for('voterIndex'))
+    ballot = Ballot.query.filter(Ballot.election_id == election.id, Ballot.campus==current_user.campus).first()
+    print(ballot)
+    if ballot is None:
+        flash('No ballots found.')
+        return redirect(url_for('voterIndex'))
+    candidates = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+    return render_template('voter/voting.html', title='Voting', election=election, ballot=ballot, candidates=candidates)
+
+@app.route('/voter/vote', methods=['GET', 'POST'])
+@login_required
+def voterVote():
+    form = VoteForm()
+    election = Methods.get_current_election()
+    if election is None:
+        flash('No current election.')
+        return redirect(url_for('voterIndex'))
+    ballot = Ballot.query.filter(Ballot.election_id == election.id, Ballot.campus==current_user.campus).first()
+    if ballot is None:
+        flash('No ballots found.')
+        return redirect(url_for('voterIndex'))
+    vote = Vote.query.filter(Vote.user_id == current_user.id, Vote.ballot_id == ballot.id).first()
+    if vote:
+        flash('You have already voted.')
+        return redirect(url_for('voterIndex'))
+    if form.validate_on_submit():
+        candidates= request.form.getlist('selectedCandidates')[0]
+        candidates = candidates.split(',')
+        print(candidates)
+        if len(candidates) < 1:
+            flash('Select at least one candidate.')
+            return redirect(url_for('voterVote'))
+        for candidate in candidates:
+            candidate = Candidate.query.get(candidate)
+            if candidate is None:
+                flash('Invalid candidate.')
+                return redirect(url_for('voterVote'))
+        for candidate in candidates:
+            candidate = Candidate.query.get(candidate)
+            candidate.number_votes += 1
+            db.session.commit()
+        vote = Vote(ballot_id=ballot.id, user_id=current_user.id)
+        ballot.votes += 1
+        db.session.add(vote)
+        db.session.commit()
+        flash('Vote cast successfully!!!')
+        return redirect(url_for('voterIndex'))
+    c = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+    return render_template('voter/vote.html', title='Vote', election=election, ballot=ballot, candidates=c, form=form)
+
+@app.route('/voter/elections')
+@login_required
+def voterElections():
+    elections = Election.query.filter(Election.election_status != 'active').all()
+    return render_template('voter/elections.html', title='Elections', elections=elections)
+
+@app.route('/voter/election/<int:id>')
+@login_required
+def voterElection(id):
+    election = Election.query.get(id)
+    if election is None:
+        flash('Election not found.')
+        return redirect(url_for('voterElections'))
+    if election.election_status == 'active':
+        flash('Election is currently active.')
+        return redirect(url_for('voterIndex'))
+    ballots = Ballot.query.filter(Ballot.election_id == election.id).all()
+    durbancandidates = None
+    midlandscandidates = None
+    for ballot in ballots:
+        if ballot.campus == 'Durban':
+            durbancandidates = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+        else:
+            midlandscandidates = Candidate.query.filter(Candidate.ballot_id == ballot.id).all()
+    return render_template('voter/election.html', title='Election', election=election, ballots=ballots, durban_candidates=durbancandidates, midlands_candidates=midlandscandidates)

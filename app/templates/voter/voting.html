@@ -1,0 +1,38 @@
+{% extends 'voter/base.html'%}
+{% block title %}{% endblock %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">{{ election.election_name }}</h2>
+        <h3 class="text-2xl font-bold mb-4 text-center">{{ ballot.campus }} Campus</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for candidate in candidates %}
+            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                <div class="flex items-center">
+                    <img src="{{ url_for('static', filename='images/' ~ candidate.id ~ '.jpg') }}" onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/dut-logo.png') }}';" alt="{{ candidate.fullname }}" class="w-16 h-16 rounded-full mr-4">
+                    <div>
+                        <p class="text-gray-800 font-bold">{{ candidate.fullname }}</p>
+                        <button class="text-blue-500 hover:underline focus:outline-none" onclick="toggleManifesto('{{ candidate.id }}')">View Manifesto</button>
+                    </div>
+                </div>
+                <div id="manifesto-{{ candidate.id }}" class="hidden mt-4">
+                    <p class="text-gray-600">{{ candidate.manifesto }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-8">
+            <a href="{{url_for('voterVote')}}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Select Candidates</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleManifesto(candidateId) {
+        var manifesto = document.getElementById('manifesto-' + candidateId);
+        manifesto.classList.toggle('hidden');
+    }
+</script>
+{% endblock %}

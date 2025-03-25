@@ -104,3 +104,6 @@ class UpdateCandidateForm(FlaskForm):
     )
     submit = SubmitField('Update Candidate')
 
+class VoteForm(FlaskForm):
+    submit = SubmitField('Vote')
+
