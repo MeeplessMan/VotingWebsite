@@ -1,0 +1,4 @@
+http://69.62.105.91/{
+    reverse_proxy localhost:8000
+    
+}
